@@ -1,0 +1,52 @@
+package main
+
+import (
+	"fmt"
+)
+
+func listenTochan(ch chan int) {
+
+	for {
+		i := <-ch
+		fmt.Println("Got", i, "from channel")
+
+		// time.Sleep(1 * time.Second)
+	}
+}
+
+func main() {
+
+	// ch := make(chan int) //unbuffered
+	ch := make(chan int, 4)
+
+	go listenTochan(ch)
+
+	for i := 0; i <= 10; i++ {
+		fmt.Println("sending", i, " to channel...")
+		ch <- i
+	}
+	fmt.Println("Done!")
+	close(ch)
+}
+
+
+output:
+go run bufferedChannel.go
+sending 0  to channel...
+sending 1  to channel...
+sending 2  to channel...      
+sending 3  to channel...      
+sending 4  to channel...      
+sending 5  to channel...      
+Got 0 from channel
+Got 1 from channel
+Got 2 from channel
+Got 3 from channel
+Got 4 from channel
+Got 5 from channel
+sending 6  to channel...      
+sending 7  to channel...      
+sending 8  to channel...      
+sending 9  to channel...      
+sending 10  to channel...     
+Done!
