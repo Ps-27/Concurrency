@@ -29,30 +29,28 @@ func main() {
 
 	msg = "Hello, world!"
 
-	wg.Add(2)
+	wg.Add(1)
 	go updateMessage("Hello, universe!")
+	wg.Wait()
+	printMessage()
+
+	wg.Add(1)
 	go updateMessage("Hello, cosmos!")
 	wg.Wait()
 	printMessage()
 
-	// wg.Add(1)
-	// go updateMessage("Hello, cosmos!")
-	// wg.Wait()
-	// printMessage()
-
-	// wg.Add(1)
-	// go updateMessage("Hello, world!")
-	// wg.Wait()
-	// printMessage()
+	wg.Add(1)
+	go updateMessage("Hello, world!")
+	wg.Wait()
+	printMessage()
 }
 
 
 // output:
-//  go run main.go      
-// Hello, universe!
 
 
-//after uncommenting also it will result Race condition
+
+// it will result Race condition
 
 // go run -race.//to check the race condition
 
